@@ -6,11 +6,11 @@ Nano-Codex uses the three-layer [Agent Framework middleware model](https://learn
 
 | Layer | Context | Runs Around | Common Use |
 | --- | --- | --- | --- |
-| Agent | `AgentContext` | One full agent loop | Rewrite top-level messages, tools, or run options |
-| Chat | `ChatContext` | Each LLM call | Shape request messages or post-process model responses |
-| Function | `FunctionInvocationContext` | Each tool invocation | Inspect arguments, emit UI events, or rewrite tool results |
+| Agent | `AgentContext` | One full agent loop | Pre-process or post-process top-level messages, tools, and run options |
+| Chat | `ChatContext` | Each LLM call | Pre-process request messages or post-process model responses |
+| Function | `FunctionInvocationContext` | Each tool invocation | Pre-process validated arguments or post-process tool results |
 
-All three layers can run logic before and after `await call_next()`. After `call_next()`, `context.result` holds the downstream result and can still be observed or replaced.
+All three layers can run pre-process logic before `await call_next()` and post-process logic after it. Once `call_next()` returns, `context.result` holds the downstream result and can still be observed or replaced.
 
 ## Middleware Timing
 
@@ -21,19 +21,19 @@ The official Agent Framework guides describe middleware as wrappers around downs
 
 ```mermaid
 flowchart TD
-    A["agent middleware<br/>before one agent loop"] --> B["chat middleware<br/>before one LLM call"]
+    A["agent middleware<br/>pre-process one agent loop"] --> B["chat middleware<br/>pre-process one LLM call"]
     B --> C["LLM call"]
-    C --> D["chat middleware<br/>after one LLM call"]
+    C --> D["chat middleware<br/>post-process one LLM call"]
     D --> E{"tool call?"}
-    E -->|yes| F["function middleware<br/>before one tool call"]
+    E -->|yes| F["function middleware<br/>pre-process one tool call"]
     F --> G["tool execution"]
-    G --> H["function middleware<br/>after one tool call"]
+    G --> H["function middleware<br/>post-process one tool call"]
     H --> B
     E -->|no| I["assistant response<br/>agent loop ends"]
-    I --> J["agent middleware<br/>after one agent loop"]
+    I --> J["agent middleware<br/>post-process one agent loop"]
 ```
 
-Agent middleware wraps one full agent loop. Chat middleware wraps each LLM request/response inside that loop. Function middleware wraps each individual tool invocation. In one agent loop, chat middleware may run multiple times and function middleware may run multiple times.
+Agent middleware pre-processes and post-processes one full agent loop. Chat middleware pre-processes and post-processes each LLM request/response inside that loop. Function middleware pre-processes and post-processes each individual tool invocation. In one agent loop, chat middleware may run multiple times and function middleware may run multiple times.
 
 ## How Middleware Loading Works
 
@@ -53,15 +53,17 @@ Within the same middleware type, execution follows a normal wrapper pattern:
 
 ```mermaid
 flowchart LR
-    A["Middleware 1<br/>before"] --> B["Middleware 2<br/>before"]
+    A["Middleware 1<br/>pre-process"] --> B["Middleware 2<br/>pre-process"]
     B --> C["Handler"]
-    C --> D["Middleware 2<br/>after"]
-    D --> E["Middleware 1<br/>after"]
+    C --> D["Middleware 2<br/>post-process"]
+    D --> E["Middleware 1<br/>post-process"]
 ```
 
-The configured order in `nano_codex.yaml` decides this nesting. The first middleware in one layer sees the request first and the result last.
+The configured order in `nano_codex.yaml` decides this nesting. The first middleware in one layer pre-processes first and post-processes last.
 
 ## Minimal Examples
+
+Each example below shows both pre-process logic before `await call_next()` and post-process logic after it.
 
 ### Agent Middleware
 

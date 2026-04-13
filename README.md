@@ -66,11 +66,11 @@ The initial system prompt is not compacted away and remains part of the active c
 
 Nano-Codex uses three middleware types, each attached to a different level of the runtime:
 
-- `Agent middleware` wraps one full agent loop. It is the right place to rewrite the message list, adjust run-level options, or add reminders that should affect the whole loop.
-- `Chat middleware` wraps each LLM request/response inside the loop. It is useful when you want to transform what reaches the model or reshape the model response before later stages consume it.
-- `Function middleware` wraps each individual tool invocation. It can inspect validated tool arguments, attach metadata, or rewrite tool results before they are returned to the loop.
+- `Agent middleware` pre-processes and post-processes one full agent loop. It is the right place to rewrite the message list, adjust run-level options, or add reminders that should affect the whole loop.
+- `Chat middleware` pre-processes and post-processes each LLM request/response inside the loop. It is useful when you want to transform what reaches the model or reshape the model response before later stages consume it.
+- `Function middleware` pre-processes and post-processes each individual tool invocation. It can inspect validated tool arguments, attach metadata, or rewrite tool results before they are returned to the loop.
 
-These layers are used for different context-engineering tasks at the agent-loop, LLM-call, and tool-invocation levels.
+These layers serve different context-engineering tasks at the agent-loop, LLM-call, and tool-invocation levels.
 
 ## Project Structure
 
@@ -289,12 +289,12 @@ Nano-Codex loads the built-in toolkit from `src/toolkit/`, then filters the fina
 
 | Middleware | Layer | Purpose |
 | --- | --- | --- |
-| `user_message_reminder` | Agent | Inserts a reminder next to the latest user message before one full agent loop runs. |
-| `logging_response` | Chat | Emits assistant response events for the console and TUI layers. |
-| `move_tool_media_to_user_message` | Chat | Rewrites tool-returned media into follow-up user messages for the next model call. |
-| `strip_reasoning` | Chat | Removes reasoning items before the chat request is sent downstream. |
-| `tool_result_reminder` | Function | Appends follow-up reminders to selected tool results after tool execution. |
-| `logging_function_result` | Function | Emits structured tool lifecycle events for the UI layer. |
+| `user_message_reminder` | Agent | Pre-processes the current agent loop by inserting a reminder next to the latest user message. |
+| `logging_response` | Chat | Post-processes chat responses into assistant events for the console and TUI layers. |
+| `move_tool_media_to_user_message` | Chat | Pre-processes the next model input by rewriting tool-returned media into follow-up user messages. |
+| `strip_reasoning` | Chat | Pre-processes chat requests by removing reasoning items before they are sent downstream. |
+| `tool_result_reminder` | Function | Post-processes selected tool results by appending follow-up reminders. |
+| `logging_function_result` | Function | Pre-processes and post-processes tool execution into structured UI events. |
 
 See [docs/extensions/middlewares.md](docs/extensions/middlewares.md) for execution order, data flow, and extension examples.
 

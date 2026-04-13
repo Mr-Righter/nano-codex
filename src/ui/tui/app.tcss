@@ -1,0 +1,196 @@
+Screen {
+    layout: vertical;
+    background: ansi_default;
+}
+
+/* Scrollable conversation area */
+#chat-window {
+    height: 1fr;
+    scrollbar-gutter: stable;
+    scrollbar-size-vertical: 1;
+    background: ansi_default;
+}
+
+/* Message container */
+#contents {
+    layout: stream;
+    width: 1fr;
+    height: auto;
+    padding: 0 1;
+    background: ansi_default;
+}
+
+/* Shared block spacing */
+.block {
+    margin: 1 1 1 0;
+}
+
+/* Subagent separator labels */
+.subagent-border {
+    color: rgb(63, 128, 190);
+    text-style: dim;
+    text-align: center;
+    margin: 1 0;
+    width: 1fr;
+}
+
+/* Status bar */
+#status-bar {
+    height: 1;
+    padding: 0 1;
+    background: ansi_default;
+}
+
+#status-bar Label {
+    height: 1;
+    content-align: left middle;
+}
+
+#status-text {
+    width: 0;
+}
+
+#token-count {
+    width: 20;
+    text-align: right;
+    color: $text-muted;
+}
+
+#status-bar SpinnerWidget {
+    width: 1fr;
+    height: 1;
+    background: transparent;
+}
+
+/* Toad pattern: app-level class drives spinner visibility */
+App.-busy #spinner {
+    display: block;
+}
+
+#spinner {
+    display: block;
+}
+
+/* Input area container */
+#input-area {
+    height: auto;
+    margin: 0 1 0 1;
+    border: none;
+    border-top: solid rgb(63, 128, 190);
+    border-bottom: solid rgb(63, 128, 190);
+    padding: 0;
+    background: ansi_default;
+}
+
+#input-area:focus-within {
+    border: none;
+    border-top: solid rgb(63, 128, 190);
+    border-bottom: solid rgb(63, 128, 190);
+}
+
+/* Input row: prefix + textarea */
+#input-row {
+    height: auto;
+    layout: horizontal;
+}
+
+/* Prompt prefix symbol ❯ */
+#prompt-prefix {
+    width: 3;
+    height: auto;
+    min-height: 3;
+    content-align: left top;
+    padding: 1 0 0 1;
+    color: $success;
+    text-style: bold;
+}
+
+#prompt-prefix.-busy-prefix {
+    color: $text-muted;
+}
+
+/* Input TextArea — transparent so it inherits terminal background */
+#user-input {
+    height: auto;
+    min-height: 3;
+    max-height: 8;
+    border: none;
+    background: transparent;
+    padding: 1 1 0 0;
+}
+
+#user-input:focus {
+    border: none;
+}
+
+#user-input .text-area--placeholder {
+    color: $text-muted;
+}
+
+Footer {
+    dock: bottom;
+}
+
+/* ── Slash complete overlay ──────────────────────────────────────── */
+
+#slash-complete {
+    display: none;
+    overlay: screen;
+    /* Float above the input area; offset-y is negative to push upward */
+    offset-y: -14;
+    height: 14;
+    width: 72;
+    background: $panel;
+    border: round rgb(63, 128, 190);
+}
+
+#slash-complete Input {
+    margin: 0 1;
+    padding: 0 1;
+    border: none;
+    background: transparent;
+}
+
+#slash-complete OptionList {
+    border: none;
+    height: 1fr;
+    padding: 0;
+    margin: 0 1;
+    background: transparent;
+}
+
+#slash-complete OptionList > .option-list--option {
+    padding: 0 1;
+}
+
+/* Shown when App has the -show-slash-complete class (from reactive var) */
+App.-show-slash-complete #slash-complete {
+    display: block;
+}
+
+/* ── Model select overlay ─────────────────────────────────────────── */
+
+#model-select {
+    display: none;
+    overlay: screen;
+    offset-y: -12;
+    height: 12;
+    width: 72;
+    background: $panel;
+    border: round rgb(63, 128, 190);
+}
+
+#model-select OptionList {
+    height: 1fr;
+    border: none;
+    scrollbar-size: 1 1;
+}
+
+#model-select OptionList > .option-list--option {
+    padding: 0 1;
+}
+
+/* Shown when App has the -show-model-select class (from reactive var) */
+App.-show-model-select #model-select {
+    display: block;
+}

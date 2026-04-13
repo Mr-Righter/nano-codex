@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# Temp / scratch files
+temp/
+tmp/
+todo.md
+shadcn/
+.pytest_cache/
+nano_codex_debug.log
+
+# Sensitive configs
+task.yaml.bak
+screenshots/

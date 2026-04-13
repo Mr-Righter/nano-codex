@@ -1,0 +1,16 @@
+{
+  "global": {
+    "base_url": "https://your-openai-compatible-endpoint/v1",
+    "api_key": "your-global-api-key"
+  },
+  "models": {
+    "gpt-5.4": {
+      "model_id": "gpt-5.4"
+    },
+    "gemma-4-31B": {
+      "model_id": "google/gemma-4-31B-it",
+      "base_url": "https://your-gemma-endpoint/v1",
+      "api_key": "your-gemma-api-key"
+    }
+  }
+}

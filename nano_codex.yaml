@@ -1,0 +1,27 @@
+task: "hello"
+is_interactive: true
+model: google/gemma-4-31B-it
+work_dir: ./test
+agent_config_path: ./agent.md
+model_config_path: configs/model_config.json
+mcp_config_path: configs/mcp_config.json
+bash_envs: {}
+skills_dir: configs/skills
+agents_dir: configs/agents
+search_engine: llm
+search_api_key: null
+search_num_results: 3
+
+middlewares:
+  - "user_message_reminder"
+  - "logging_response"
+  - "move_tool_media_to_user_message"
+  - "tool_result_reminder"
+  - "logging_function_result"
+
+auto_save_history: false
+
+auto_compact_enabled: true
+auto_compact_max_tokens: 200000
+auto_compact_keep_last_groups: 0
+# auto_compact_summarizer_model: your-summarizer-model

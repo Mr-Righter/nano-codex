@@ -81,6 +81,7 @@ Nano-Codex 使用三种中间件类型，每种分别挂载在运行时的不同
 ```text
 nano-codex/
 ├── README.md
+├── README.zh.md                    # 简体中文 README
 ├── agent.md                         # 主智能体定义（YAML 前置元数据 + 指令）
 ├── launcher.py                      # CLI 入口
 ├── requirements.txt                 # 主要 pip 依赖清单
@@ -115,17 +116,14 @@ nano-codex/
     │   ├── tool_loader.py                  # 工具包注册及 MCP 加载
     │   └── tool_support.py                 # 共享的工具包运行时上下文及辅助函数
     ├── ui/                          # 共享的控制台及交互式 UI 层
+    │   ├── compaction.py                   # compaction 输出的 UI 格式化辅助逻辑
     │   ├── console_display.py              # Rich 控制台渲染器
-    │   ├── console_formatters.py           # 控制台格式化辅助函数
     │   ├── events.py                       # 共享的 UI 事件定义
-    │   ├── factory.py                      # UI 运行时工厂
     │   ├── presenters.py                   # 框架至 UI 的事件呈现器
     │   ├── protocol.py                     # UI 运行时接口
-    │   ├── theme.py                        # 控制台主题定义
     │   └── tui/                            # Textual 应用、斜杠命令、会话记录状态及小组件
     └── utils/                       # 提示组装、模型配置、历史 I/O 及压缩辅助函数
         ├── auto_compact.py                 # 自动与手动压缩逻辑
-        ├── env_loader.py                   # Bash 环境验证辅助函数
         ├── history_io.py                   # 会话持久化辅助函数
         ├── markdown_parser.py              # Markdown + YAML 前置元数据解析
         ├── model_client.py                 # 模型配置解析及客户端创建

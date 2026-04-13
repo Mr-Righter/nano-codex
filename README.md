@@ -77,6 +77,7 @@ These layers are used for different context-engineering tasks at the agent-loop,
 ```text
 nano-codex/
 ├── README.md
+├── README.zh.md                    # Simplified Chinese README
 ├── agent.md                         # Main agent definition (YAML frontmatter + instructions)
 ├── launcher.py                      # CLI entrypoint
 ├── requirements.txt                 # Primary pip dependency list
@@ -111,17 +112,14 @@ nano-codex/
     │   ├── tool_loader.py                  # Toolkit registration and MCP loading
     │   └── tool_support.py                 # Shared toolkit runtime context and helpers
     ├── ui/                          # Shared console and interactive UI layers
+    │   ├── compaction.py                   # UI formatting helpers for compaction output
     │   ├── console_display.py              # Rich console renderer
-    │   ├── console_formatters.py           # Console formatting helpers
     │   ├── events.py                       # Shared UI event definitions
-    │   ├── factory.py                      # UI runtime factory
     │   ├── presenters.py                   # Framework-to-UI event presenters
     │   ├── protocol.py                     # UI runtime interfaces
-    │   ├── theme.py                        # Console theme definitions
     │   └── tui/                            # Textual app, slash commands, transcript state, and widgets
     └── utils/                       # Prompt assembly, model config, history IO, and compaction helpers
         ├── auto_compact.py                 # Automatic and manual compaction logic
-        ├── env_loader.py                   # Bash environment validation helpers
         ├── history_io.py                   # Session persistence helpers
         ├── markdown_parser.py              # Markdown + YAML frontmatter parsing
         ├── model_client.py                 # Model config resolution and client creation

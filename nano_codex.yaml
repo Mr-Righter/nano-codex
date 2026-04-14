@@ -2,6 +2,7 @@ task: "hello"
 is_interactive: true
 model: google/gemma-4-31B-it
 work_dir: ./test
+agent_loop_max_iterations: 200
 agent_config_path: ./agent.md
 model_config_path: configs/model_config.json
 mcp_config_path: configs/mcp_config.json

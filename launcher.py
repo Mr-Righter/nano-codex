@@ -47,7 +47,7 @@ class TaskConfig(BaseModel):
         description="Working directory for agent execution.",
     )
     agent_loop_max_iterations: Optional[int] = Field(
-        default=40,
+        default=200,
         description="Optional maximum number of model round-trips in the function invocation loop.",
     )
 

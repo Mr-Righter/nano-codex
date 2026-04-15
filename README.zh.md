@@ -177,28 +177,34 @@ uv pip install -r requirements.txt
 `nano_codex.yaml` 定义了默认的运行时行为。一个实用的起始配置如下所示：
 
 ```yaml
-is_interactive: true
-model: gpt-5.4
-work_dir: /absolute/path/to/workdir
-agent_loop_max_iterations: 40
+task: "Inspect the repo and write a summary"       # 默认的非交互任务文本。
+is_interactive: true                                # 为 true 时启用交互式 TUI 模式。
+model: gpt-5.4                                      # 来自 configs/model_config.json 的默认模型别名。
+work_dir: /absolute/path/to/workdir                 # 传递给运行时和 shell tools 的工作目录。
+agent_loop_max_iterations: 200                      # 单次 agent loop 允许的最大迭代次数。
 
-agent_config_path: ./agent.md
-model_config_path: configs/model_config.json
-mcp_config_path: configs/mcp_config.json
-skills_dir: configs/skills
-agents_dir: configs/agents
+agent_config_path: ./agent.md                       # 主 agent 定义文件路径。
+model_config_path: configs/model_config.json        # 模型配置文件路径。
+mcp_config_path: configs/mcp_config.json            # MCP 配置文件路径。
+bash_envs: {}                                       # 注入持久 bash shell 的环境变量。
+skills_dir: configs/skills                          # 本地 skills 的根目录。
+agents_dir: configs/agents                          # subagent 定义的根目录。
+search_engine: llm                                  # web tools 使用的搜索后端。
+search_api_key: null                                # 当前搜索后端的可选 API key。
+search_num_results: 3                               # 默认返回的搜索结果数量。
 
 middlewares:
-  - "user_message_reminder"
-  - "logging_response"
-  - "move_tool_media_to_user_message"
-  - "tool_result_reminder"
-  - "logging_function_result"
+  - "user_message_reminder"                        # 注入 agent-loop reminder。
+  - "logging_response"                             # 发出 assistant response events。
+  - "move_tool_media_to_user_message"              # 为下一次模型输入重写 tool media。
+  - "tool_result_reminder"                         # 注入 tool-result reminder。
+  - "logging_function_result"                      # 发出 tool lifecycle UI events。
 
-auto_save_history: true
-auto_compact_enabled: true
-auto_compact_max_tokens: 200000
-auto_compact_keep_last_groups: 0
+auto_save_history: true                            # 为 true 时自动持久化 session history。
+auto_compact_enabled: true                         # 启用自动 context compaction。
+auto_compact_max_tokens: 200000                    # 触发 compaction 的 token 阈值。
+auto_compact_keep_last_groups: 0                   # 保持可见的最近消息组数量。
+# auto_compact_summarizer_model: your-summarizer-model    可选的 compaction summarizer model 覆盖项。
 ```
 
 注意：

@@ -1,28 +1,28 @@
-task: "hello"
-is_interactive: true
-model: google/gemma-4-31B-it
-work_dir: ./test
-agent_loop_max_iterations: 200
-agent_config_path: ./agent.md
-model_config_path: configs/model_config.json
-mcp_config_path: configs/mcp_config.json
-bash_envs: {}
-skills_dir: configs/skills
-agents_dir: configs/agents
-search_engine: llm
-search_api_key: null
-search_num_results: 3
+task: "hello"                                       # Default non-interactive task text.
+is_interactive: true                                # Run in interactive TUI mode when true.
+model: google/gemma-4-31B-it                        # Default model alias from configs/model_config.json.
+work_dir: ./test                                    # Working directory passed into the runtime and shell tools.
+agent_loop_max_iterations: 200                      # Maximum iterations allowed in one agent loop.
+agent_config_path: ./agent.md                       # Main agent definition path.
+model_config_path: configs/model_config.json        # Model configuration file path.
+mcp_config_path: configs/mcp_config.json            # MCP configuration file path.
+bash_envs: {}                                       # Environment variables injected into the persistent bash shell.
+skills_dir: configs/skills                          # Root directory for local skills.
+agents_dir: configs/agents                          # Root directory for subagent definitions.
+search_engine: llm                                  # Search backend used by web tools.
+search_api_key: null                                # Optional API key for the configured search backend.
+search_num_results: 3                               # Default number of search results to return.
 
 middlewares:
-  - "user_message_reminder"
-  - "logging_response"
-  - "move_tool_media_to_user_message"
-  - "tool_result_reminder"
-  - "logging_function_result"
+  - "user_message_reminder"                        # Agent-loop reminder injection.
+  - "logging_response"                             # Assistant response event emission.
+  - "move_tool_media_to_user_message"              # Tool media rewrite for the next model input.
+  - "tool_result_reminder"                         # Tool-result reminder injection.
+  - "logging_function_result"                      # Tool lifecycle UI event emission.
 
-auto_save_history: false
+auto_save_history: false                           # Persist session history automatically when true.
 
-auto_compact_enabled: true
-auto_compact_max_tokens: 200000
-auto_compact_keep_last_groups: 0
-# auto_compact_summarizer_model: your-summarizer-model
+auto_compact_enabled: true                         # Enable automatic context compaction.
+auto_compact_max_tokens: 200000                    # Token threshold that triggers compaction.
+auto_compact_keep_last_groups: 0                   # Number of recent message groups to keep visible.
+# auto_compact_summarizer_model: your-summarizer-model    Optional summarizer model override for compaction.
